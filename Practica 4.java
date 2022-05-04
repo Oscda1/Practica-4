@@ -8,6 +8,14 @@ class mexicano{
         this.CURP=CURP;
         this.RFC=RFC;
     }
+    /**
+     * Genera un RFC (Número de Identificación Fiscal Mexicano) aleatorio basado en el nombre y fecha de nacimiento de la persona
+     * 
+     * @param Papellido Primer apellido
+     * @param Sapellido Segundo apellido
+     * @param Nombree Nombres
+     * @param Fecha Fecha de nacimiento en formato ddmmaa
+     */
     public void SetRFC(String Papellido, String Sapellido, String Nombree, String Fecha){
         this.nombre=Nombree+" "+Papellido+" "+Sapellido;
         char[] Vocales = {'a','e','i','o','u'};
@@ -62,6 +70,7 @@ class mexicano{
         this.RFC=(""+Papellido.charAt(0)+vApellido+Sapellido.charAt(0)+iNombre+Fecha+ClaveLetras);
         this.RFC=this.RFC.toUpperCase();
     }
+    // Genera el CURP
     public void SetCURP(String Papellido, String Sapellido, String Nombree, String Fecha, char Genero, String Iniciales){
         char[] Vocales = {'a','e','i','o','u'};
         char vApellido=' ';
@@ -234,8 +243,7 @@ class Practica4{
                 FFecha=año.substring(1,3)+mes+dia;
                 if(esmexicano==true){
                     System.out.println("Ingrese su entidad de nacimiento");
-                    posicion=1;
-                    iEntidades=Iniciales[posicion];
+                    iEntidades=Iniciales[indice()];
                 }
                 else{
                     iEntidades="NE";
@@ -257,23 +265,33 @@ class Practica4{
                 case 3:
                     fin=true;
                     break;
+                default:
+                    System.out.println("Ingrese una opcion valida!");
+                    break;
             }
         }while(fin==false);
     }
-    public static int indice(String estado){
+    /**
+     * Imprime una lista de estados mexicanos, luego le pide al usuario que elija uno y devuelve el índice de
+     * el estado escogido.
+     * 
+     * @return el indice del arreglo.
+     */
+    public static int indice(){
         String Estados[] = {"AGUASCALIENTES","BAJA CALIFORNIA","BAJA CALIFORNIA SUR","CAMPECHE","COAHUILA","COLIMA","CHIAPAS","CHIHUAHUA","DISTRITO FEDERAL","DURANGO","GUANAJUATO","GUERRERO","HIDALGO","JALISCO","MEXICO","MICHOACAN","MORELOS","NAYARIT","NUEVO LEON","OAXACA","PUEBLA","QUERETARO","QUINTANA ROO","SAN LUIS POTOSI","SINALOA","SONORA","TABASCO","TAMAULIPAS","TLAXCALA","VERACRUZ","YUCATAN","ZACATECAS"};
-        int numero=0;
         int x=0;
+        int numero=0;
         boolean salir=false;
         for(x=0;x<=31;x+=1){
-            if(estado==Estados[x]){
-                numero=x;
-                salir=true;
-                System.out.println(x);
-            }
+            System.out.println((x+1)+") "+Estados[x]);
         }
-        if(salir==false)
-            numero=60;
-        return numero;
+        do{
+            numero=Integer.parseInt(System.console().readLine())-1;
+            if((numero<0)||(numero>31)){
+                System.out.println("Ingrese una opcion valida!");
+            }else
+                salir=true;
+        }while(salir==false);
+        return (numero);
     }
 }
